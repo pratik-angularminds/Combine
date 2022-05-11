@@ -106,7 +106,7 @@ function LogIn() {
           marginTop: "4%",
           marginLeft: "auto",
           marginRight: "auto",
-          border: "2px solid",
+          border: "1px solid",
           borderColor: "secondary.main",
         }}
       >

@@ -28,6 +28,7 @@ import {
 } from "@mui/x-date-pickers";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Box } from "@mui/system";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -69,7 +70,11 @@ function EditProfile2() {
       d.email === user.email ? "" : d.email === email ? (flag = true) : ""
     );
     if (flag === false && email !== "") {
-      if (valuePhNO.length === 11 || valuePhNO.length === 0 || valuePhNO.length ==="") {
+      if (
+        valuePhNO.length === 11 ||
+        valuePhNO.length === 0 ||
+        valuePhNO.length === ""
+      ) {
         let obj = {
           name: name,
           bio: bio,
@@ -93,7 +98,7 @@ function EditProfile2() {
         setStatus("succes");
         setMassage("Profile Updated Successfully");
         setOpen(true);
-        setFlag(true)
+        setFlag(true);
         setTimeout(() => {
           // navigate("/editprofile");
         }, 1000);
@@ -115,54 +120,44 @@ function EditProfile2() {
 
     setOpen(false);
   };
- function stringToColor(string) {
-   let hash = 0;
-   let i;
-   for (i = 0; i < string.length; i += 1) {
-     hash = string.charCodeAt(i) + ((hash << 5) - hash);
-   }
-   let color = "#";
-   for (i = 0; i < 3; i += 1) {
-     const value = (hash >> (i * 8)) & 0xff;
-     color += `00${value.toString(16)}`.slice(-2);
-   }
-   return color;
- }
- function stringAvatar(name) {
-   return {
-     sx: {
-       bgcolor: stringToColor(name),
-     },
-     children: `${name.split("")[0]}${name.split("")[1]}`,
-   };
- }
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    let color = "#";
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    return color;
+  }
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name.split("")[0]}${name.split("")[1]}`,
+    };
+  }
 
   return (
     <>
       {user && (
         <>
-        <Header flag={flag} setFlag={setFlag}></Header>
-        <Container>
-          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert
-              onClose={handleClose}
-              severity={status === "error" ? "error" : "success"}
-              sx={{ width: "100%" }}
-            >
-              {message}
-            </Alert>
-          </Snackbar>
-          <Grid xs={12}>
-            <Grid
-              item
-              container
-              direction="column"
-              justifyContent="flex-start"
-              alignItems="flex-start"
-            >
-            </Grid>
-            <Grid
-              xs={12}
+          <Header flag={flag} setFlag={setFlag}></Header>
+          <Container>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+              <Alert
+                onClose={handleClose}
+                severity={status === "error" ? "error" : "success"}
+                sx={{ width: "100%" }}
+              >
+                {message}
+              </Alert>
+            </Snackbar>
+            <Box
               style={{
                 marginTop: "2vh",
                 border: "1px solid",
@@ -170,51 +165,34 @@ function EditProfile2() {
                 padding: "3vh",
               }}
             >
-              <Grid
-                xs={6}
-                md={12}
-                container
-                direction="column"
-                justifyContent="flex-end"
-                alignItems="center"
-              >
-                {profile !== "" ? (
-                  <ClearIcon
-                    onClick={() => {
-                      imageRef.current.value = null;
-                      setProfile("");
-                    }}
-                    sx={{ marginLeft: 18 }}
-                  />
-                ) : (
-                  ""
-                )}
-                {profile === "" ? (
-                  <Avatar
-                    {...stringAvatar(user.firstName)}
-                    sx={{
-                      width: 150,
-                      height: 150,
-                      fontSize: "90px",
-                      backgroundColor: stringToColor(user.firstName),
-                    }}
-                  />
-                ) : (
-                  <Avatar
-                    alt={name}
-                    src={require(`../../../../Node/images/Profile/${profile}`)}
-                    sx={{ width: 150, height: 150 }}
-                  />
-                )}
-                <Grid
-                  xs={6}
-                  container
-                  direction="column"
-                  justifyContent="flex-start"
-                  alignItems="center"
-                  style={{ marginTop: "2vh" }}
-                >
-                  {" "}
+              <Grid container sx={{ marginLeft: 5 }}>
+                <Grid item xs={6} justify-content="center" align="center">
+                  {profile === "" ? (
+                    <Avatar
+                      {...stringAvatar(user.firstName)}
+                      sx={{
+                        width: 150,
+                        height: 150,
+                        fontSize: "90px",
+                        backgroundColor: stringToColor(user.firstName),
+                      }}
+                    />
+                  ) : (
+                    <>
+                      <ClearIcon
+                        onClick={() => {
+                          imageRef.current.value = null;
+                          setProfile("");
+                        }}
+                        sx={{ marginLeft: 18 }}
+                      />
+                      <Avatar
+                        alt={name}
+                        src={require(`../../../../Node/images/Profile/${profile}`)}
+                        sx={{ width: 150, height: 150 }}
+                      />
+                    </>
+                  )}
                   <Button
                     component="label"
                     className="image"
@@ -240,16 +218,7 @@ function EditProfile2() {
                     />
                   </Button>
                 </Grid>
-              </Grid>
-              <Grid
-                xs={12}
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                style={{ marginTop: "4vh" }}
-              >
-                <Grid xs={4}>
+                <Grid xs={6} sx={{ marginTop: 5 }}>
                   <TextField
                     required
                     onChange={(e) => setName(e.target.value)}
@@ -265,38 +234,30 @@ function EditProfile2() {
                     autoFocus
                     sx={{ minWidth: "80%", textAlign: "center" }}
                   />
+
+                  <Grid xs={12} sx={{ marginTop: 6 }}>
+                    {" "}
+                    <TextField
+                      required
+                      size="small"
+                      color="secondary"
+                      onChange={(e) => setEmail(e.target.value)}
+                      id="email"
+                      type="email"
+                      value={email}
+                      label="Email Address"
+                      name="email"
+                      autoComplete="email"
+                      sx={{ minWidth: "80%", textAlign: "center" }}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid xs={4}>
-                  {" "}
-                  <TextField
-                    required
-                    size="small"
-                    color="secondary"
-                    onChange={(e) => setEmail(e.target.value)}
-                    id="email"
-                    type="email"
-                    value={email}
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    sx={{ minWidth: "80%", textAlign: "center" }}
-                  />
-                </Grid>
-              </Grid>
-              <Grid
-                xs={12}
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                style={{ marginTop: "4vh" }}
-              >
+
                 <Grid
-                  xs={4}
-                  container
-                  direction="row"
-                  justifyContent="flex-start"
-                  alignItems="flex-start"
+                  xs={6}
+                  sx={{ marginTop: 5 }}
+                  justifyContent="center"
+                  alignItems="center"
                 >
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
@@ -317,7 +278,7 @@ function EditProfile2() {
                     />
                   </LocalizationProvider>
                 </Grid>
-                <Grid xs={4}>
+                <Grid xs={6} sx={{ marginTop: 5 }}>
                   <PhoneTextField
                     style={{ width: "80%" }}
                     size="small"
@@ -329,128 +290,100 @@ function EditProfile2() {
                     onChange={onChange}
                   />
                 </Grid>
-              </Grid>
-              <Grid
-                xs={12}
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                style={{ marginTop: "4vh" }}
-              >
+
                 <Grid
-                  xs={4}
+                  xs={5}
                   container
-                  direction="row"
-                  justifyContent="flex-start"
-                  alignItems="flex-start"
+                  justifyContent="center"
+                  alignItems="center"
+                  style={{ marginTop: "4vh" }}
                 >
                   {" "}
-                  <Grid
-                    xs={6}
-                    container
-                    direction="column"
-                    justifyContent="center"
-                    alignItems="flex-start"
-                    style={{ marginTop: "4vh" }}
-                  >
-                    <Typography
-                      sx={{ ml: 10 }}
-                      gutterBottom
-                      variant="h6"
-                      component="div"
+                  <FormControl>
+                    <RadioGroup
+                      row
+                      aria-labelledby="demo-row-radio-buttons-group-label"
+                      name="row-radio-buttons-group"
+                      onChange={(e) => setGender(e.target.value)}
+                      defaultValue={user.gender}
                     >
-                      Gender
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    xs={6}
-                    container
-                    direction="column"
-                    justifyContent="center"
-                    alignItems="flex-start"
-                  >
-                    <FormControl>
-                      <RadioGroup
-                        aria-labelledby="demo-controlled-radio-buttons-group"
-                        name="controlled-radio-buttons-group"
-                        // value={value}
-                        onChange={(e) => setGender(e.target.value)}
-                        defaultValue={user.gender}
-                      >
-                        <FormControlLabel
-                          value="female"
-                          control={<Radio color="secondary" />}
-                          label="Female"
-                        />
-                        <FormControlLabel
-                          value="male"
-                          control={<Radio color="secondary" />}
-                          label="Male"
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </Grid>
+                      <FormControlLabel control={<>Gender :</>} />
+                      <FormControlLabel
+                        value="female"
+                        control={<Radio color="secondary" />}
+                        label="Female"
+                      />
+                      <FormControlLabel
+                        value="male"
+                        control={<Radio color="secondary" />}
+                        label="Male"
+                      />
+                      <FormControlLabel
+                        value="other"
+                        control={<Radio />}
+                        label="Other"
+                      />
+                    </RadioGroup>
+                  </FormControl>{" "}
                 </Grid>
-                <Grid xs={4}>
+                <Grid xs={12} sx={{ marginTop: 3 }}>
                   <TextareaAutosize
                     aria-label="minimum height"
                     minRows={4}
                     color="secondary"
                     placeholder="Bio"
                     value={bio}
-                    style={{ width: "80%", backgroundColor: "transparent" }}
+                    style={{ width: "90%", backgroundColor: "transparent" }}
                     onChange={(e) => setBio(e.target.value)}
                   />
                 </Grid>
-              </Grid>
-              <Grid
-                xs={12}
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                style={{ marginTop: "4vh" }}
-              >
-                {" "}
                 <Grid
-                  xs={4}
+                  xs={12}
                   container
-                  direction="column"
-                  justifyContent="flex-start"
-                  alignItems="flex-end"
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  style={{ marginTop: "4vh" }}
                 >
-                  <Button
-                    type="submit"
-                    onClick={(e) => handle(e)}
-                    variant="contained"
-                    sx={{ maxWidth: "50%", maxHeight: "50%" }}
+                  {" "}
+                  <Grid
+                    xs={4}
+                    container
+                    direction="column"
+                    justifyContent="flex-start"
+                    alignItems="flex-end"
                   >
-                    Update
-                  </Button>
-                </Grid>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <Grid
-                  xs={5}
-                  container
-                  direction="column"
-                  justifyContent="flex-start"
-                  alignItems="flex-start"
-                >
-                  <Button
-                    type="submit"
-                    color="error"
-                    onClick={() => navigate("/")}
-                    variant="contained"
-                    sx={{ maxWidth: "50%", maxHeight: "50%" }}
+                    <Button
+                      type="submit"
+                      onClick={(e) => handle(e)}
+                      variant="contained"
+                      sx={{ maxWidth: "50%", maxHeight: "50%" }}
+                    >
+                      Update
+                    </Button>
+                  </Grid>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <Grid
+                    xs={5}
+                    container
+                    direction="column"
+                    justifyContent="flex-start"
+                    alignItems="flex-start"
                   >
-                    Cancel
-                  </Button>
+                    <Button
+                      type="submit"
+                      color="error"
+                      onClick={() => navigate("/")}
+                      variant="contained"
+                      sx={{ maxWidth: "50%", maxHeight: "50%" }}
+                    >
+                      Cancel
+                    </Button>
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </Grid>
-        </Container>
+            </Box>
+          </Container>
         </>
       )}
     </>
