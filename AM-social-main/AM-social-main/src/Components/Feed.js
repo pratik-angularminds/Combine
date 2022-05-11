@@ -70,7 +70,7 @@ function Feed() {
   const [limit, setlimit] = useState(3);
   const handleExpandClick = (i) => {
     setExpanded(!expanded);
-    setComment("")
+    setComment("");
     setId(i);
   };
   const [token, setToken] = useState(
@@ -222,418 +222,452 @@ function Feed() {
     <>
       {token && (
         <>
-            <Header />
-        <Container>
-          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert
-              onClose={handleClose}
-              severity={status === "error" ? "error" : "success"}
-              sx={{ width: "100%" }}
-            >
-              {message}
-            </Alert>
-          </Snackbar>
-          <center>
-            <Card
-              sx={{
-                marginRight: "1%",
-                width: "80%",
-                fontSize: 20,
-                marginTop: 2,
-              }}
-            >
-              <CardHeader
-                style={{
-                  backgroundColor: "#abe9cd",
-                  backgroundImage:
-                    "linear-gradient(315deg, #ee9617 0%, #fe5858 74%)",
-                }}
-                title={
-                  <Typography
-                    variant="h5"
-                    color="white"
-                    sx={{
-                      fontWeight: "bold",
-
-                      textAlign: "center",
-                    }}
-                    component="h4"
-                  >
-                    Add Feed
-                  </Typography>
-                }
-              ></CardHeader>
-              <Grid
-                container
-                xs={12}
-                component="main"
-                sx={{ minHeight: "40vh" }}
+          <Header />
+          <Container>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+              <Alert
+                onClose={handleClose}
+                severity={status === "error" ? "error" : "success"}
+                sx={{ width: "100%" }}
               >
-                <Grid
-                  xs={6}
-                  container
-                  direction="row"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Grid
-                    sx={{
-                      marginTop: "4vh",
-                      marginLeft: "2vh",
-                    }}
-                    container
-                    xs={6}
-                    direction="row"
-                    justifyContent="flex-start"
-                    alignItems="flex-start"
-                  >
-                    <TextField
-                      value={title}
-                      id="outlined-basic"
-                      label="Caption"
-                      variant="outlined"
-                      fullWidth
-                      onChange={(e) => setTitle(e.target.value)}
-                    />
-                    <br />
-                    <br />
-                  </Grid>
-                  <Grid
-                    container
-                    xs={6}
-                    direction="column"
-                    justifyContent="flex-start"
-                    alignItems="center"
-                  >
-                     <Button
-                    component="label"
-                    className="image"
-                    style={{ marginLeft: "0px" }}
-                  >
-                    <CameraAltIcon style={{ marginLeft: "0px" }} />
-                    &nbsp;&nbsp;Upload image
-                    <input
-                      type="file"
-                      hidden
-                      ref={imageRef}
-                      style={{ fontSize: "80%", marginLeft: 50 }}
-                      onChange={(e) => {
-                        console.log(e.target.value);
-
-                        setFilename(e.target.files[0].name);
-                        setFilepath(e.target.value);
-                        let formData = new FormData();
-                        formData.append("image", e.target.files[0]);
-                        axios
-                          .post("http://localhost:3000/api/upload", formData)
-                          .then((res) => console.log(res));
-                        setImage(e.target.files[0].name);
-                        setStatus("success");
-                        setMassage("File Uploaded Succesfully");
-                        setOpen(true);
-                      }}
-                    />
-                    </Button>
-                  </Grid>
-                </Grid>
-                <Grid
-                  item
-                  xs={4}
-                  container
-                  direction="row"
-                  justifyContent="center"
-                  alignItems="center"
-                  sx={{
-                    marginTop: "2vh",
+                {message}
+              </Alert>
+            </Snackbar>
+            <center>
+              <Card
+                sx={{
+                  marginRight: "1%",
+                  width: "80%",
+                  fontSize: 20,
+                  marginTop: 2,
+                }}
+              >
+                <CardHeader
+                  style={{
+                    backgroundColor: "#abe9cd",
+                    backgroundImage:
+                      "linear-gradient(315deg, #ee9617 0%, #fe5858 74%)",
                   }}
-                >
-                  {image !== "" && (
-                    <img
-                      style={{
-                        maxHeight: "90%",
-                        maxWidth: "90%",
-                        height: "100%",
-                        width: "100%",
+                  title={
+                    <Typography
+                      variant="h4"
+                      color="white"
+                      sx={{
+                        fontWeight: "bold",
+                        textAlign: "center",
                       }}
-                      src={require(`../../../../Node/images/${image}`)}
-                    ></img>
-                  )}
-                </Grid>
-              </Grid>
-
-              <CardActions style={{ backgroundColor: "#fff3e0" }}>
-                {" "}
+                      component="h4"
+                    >
+                      Add Feed
+                    </Typography>
+                  }
+                ></CardHeader>
                 <Grid
+                  container
                   xs={12}
-                  container
-                  direction="row"
-                  justifyContent="right"
-                  alignItems="right"
-                  sx={{ padding: "1%" }}
-                >
-                  <Button
-                    variant="contained"
-                    onClick={() => handle()}
-                    style={{ padding: "10px 50px 10px 50px" }}
-                  >
-                    Post
-                  </Button>
-                </Grid>
-              </CardActions>
-            </Card>
-          </center>
-          <InfiniteScroll
-            dataLength={data.length}
-            next={fetchMoreData}
-            hasMore={true}
-            loader={
-              <>
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="center"
-                  alignItems="center"
-                  spacing={12}
-                  style={{ marginTop: 20 }}
+                  component="main"
+                  sx={{ minHeight: "40vh" }}
                 >
                   <Grid
+                    xs={6}
                     container
-                    md={12}
                     direction="row"
                     justifyContent="center"
                     alignItems="center"
                   >
-                    <Box
+                    <Grid
                       sx={{
-                        width: 300,
-                        height: 300,
+                        marginTop: "4vh",
+                        marginLeft: "2vh",
                       }}
+                      container
+                      xs={6}
+                      direction="row"
+                      justifyContent="flex-start"
+                      alignItems="flex-start"
                     >
-                      <Skeleton
-                        animation="wave"
-                        variant="circular"
-                        width={40}
-                        height={40}
+                      <TextField
+                        value={title}
+                        id="outlined-basic"
+                        label="Caption"
+                        variant="outlined"
+                        fullWidth
+                        onChange={(e) => setTitle(e.target.value)}
                       />
-                      <Skeleton
-                        animation="wave"
-                        height={10}
-                        width="80%"
-                        style={{ marginBottom: 6 }}
-                      />
-                      <Skeleton animation="wave" height={10} width="40%" />
-                      <Skeleton
-                        sx={{ height: 190 }}
-                        animation="wave"
-                        variant="rectangular"
-                      />
-                      <Skeleton
-                        animation="wave"
-                        height={10}
-                        style={{ marginBottom: 6 }}
-                      />
-                      <Skeleton animation="wave" height={10} width="80%" />
-                    </Box>
+                      <br />
+                      <br />
+                    </Grid>
+                    <Grid
+                      container
+                      xs={6}
+                      direction="column"
+                      justifyContent="flex-start"
+                      alignItems="center"
+                    >
+                      <Button
+                        component="label"
+                        className="image"
+                        style={{ marginLeft: "0px" }}
+                      >
+                        <CameraAltIcon style={{ marginLeft: "0px" }} />
+                        &nbsp;&nbsp;Upload image
+                        <input
+                          type="file"
+                          hidden
+                          ref={imageRef}
+                          style={{ fontSize: "80%", marginLeft: 50 }}
+                          onChange={(e) => {
+                            console.log(e.target.value);
+
+                            setFilename(e.target.files[0].name);
+                            setFilepath(e.target.value);
+                            let formData = new FormData();
+                            formData.append("image", e.target.files[0]);
+                            axios
+                              .post(
+                                "http://localhost:3000/api/upload",
+                                formData
+                              )
+                              .then((res) => console.log(res));
+                            setImage(e.target.files[0].name);
+                            setStatus("success");
+                            setMassage("File Uploaded Succesfully");
+                            setOpen(true);
+                          }}
+                        />
+                      </Button>
+                    </Grid>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={4}
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    sx={{
+                      marginTop: "2vh",
+                    }}
+                  >
+                    {image !== "" && (
+                      <img
+                        style={{
+                          maxHeight: "90%",
+                          maxWidth: "90%",
+                          height: "100%",
+                          width: "100%",
+                        }}
+                        src={require(`../../../../Node/images/${image}`)}
+                      ></img>
+                    )}
                   </Grid>
                 </Grid>
-              </>
-            }
-            endMessage={
-              <p style={{ textAlign: "center" }}>
-                <b>Yay! You have seen it all</b>
-              </p>
-            }
-          >
-            <Grid
-              item
-              container
-              direction="row"
-              justifyContent="flex-start"
-              spacing={3}
+
+                <CardActions style={{ backgroundColor: "#fff3e0" }}>
+                  {" "}
+                  <Grid
+                    xs={12}
+                    container
+                    direction="row"
+                    justifyContent="right"
+                    alignItems="right"
+                    sx={{ padding: "1%" }}
+                  >
+                    <Button
+                      variant="contained"
+                      onClick={() => handle()}
+                      style={{ padding: "10px 50px 10px 50px" }}
+                    >
+                      Post
+                    </Button>
+                  </Grid>
+                </CardActions>
+              </Card>
+            </center>
+            <InfiniteScroll
+              dataLength={data.length}
+              next={fetchMoreData}
+              hasMore={true}
+              loader={
+                <>
+                  {" "}
+                  <Card
+                    sx={{
+                      maxWidth: "60vh",
+                      marginLeft: "29.5%",
+                      marginTop: 3,
+                    }}
+                  >
+                    <CardHeader
+                      style={{
+                        backgroundColor: "#abe9cd",
+                        backgroundImage:
+                          "linear-gradient(315deg, #ee9617 0%, #fe5858 74%)",
+                      }}
+                      avatar={
+                        <Skeleton variant="circular" width={40} height={40} />
+                      }
+                      title={
+                        <Skeleton animation="wave" height={10} width="80%" />
+                      }
+                    ></CardHeader>
+
+                    <CardContent>
+                      <Skeleton
+                        variant="rectangular"
+                        width={400}
+                        height={300}
+                      />
+                    </CardContent>
+                    <CardActions
+                      style={{ backgroundColor: "#fff3e0", padding: 30 }}
+                    >
+                      <Skeleton animation="wave" height={10} width="100%" />
+                    </CardActions>
+                  </Card>
+                </>
+              }
+              endMessage={
+                <p style={{ textAlign: "center" }}>
+                  <b>Yay! You have seen it all</b>
+                </p>
+              }
             >
-              {data &&
-                data.map((obj, index) => {
-                  return (
-                    <Grid item md={12} key={obj._id}>
-                      <center>
-                        <Card
-                          sx={{
-                            maxWidth: "60vh",
+              {/* <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                spacing={12}
+                style={{ marginTop: 20 }}
+              >
+                <Grid
+                  container
+                  md={12}
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Box
+                    sx={{
+                      width: "37%",
+                      height: "100%",
+                      marginLeft: 10,
+                    }}
+                  >
+                    <Skeleton
+                      animation="wave"
+                      height={150}
+                      width="100%"
+                      style={{ marginBottom: -24 }}
+                    />
+                    <Skeleton
+                      sx={{ height: 300 }}
+                      animation="wave"
+                      variant="rectangular"
+                    />
+                    <Skeleton
+                      animation="wave"
+                      height={150}
+                      width="100%"
+                      style={{ marginTop: -30 }}
+                    />
+                  </Box>
+                </Grid>
+              </Grid> */}
+              <Grid
+                item
+                container
+                direction="row"
+                justifyContent="flex-start"
+                spacing={3}
+              >
+                {data &&
+                  data.map((obj, index) => {
+                    return (
+                      <Grid item md={12} key={obj._id}>
+                        <center>
+                          <Card
+                            sx={{
+                              maxWidth: "60vh",
 
-                            marginRight: "1%",
-                            marginTop: 3,
-                          }}
-                          key={index}
-                        >
-                          <CardHeader
-                            style={{
-                              backgroundColor: "#abe9cd",
-                              backgroundImage:
-                                "linear-gradient(315deg, #ee9617 0%, #fe5858 74%)",
+                              marginRight: "1%",
+                              marginTop: 3,
                             }}
-                            avatar={data2.map((d) =>
-                              d._id === obj.userId && d.profile !== "" ? (
-                                <Avatar
-                                  src={require(`../../../../Node/images/Profile/${d.profile}`)}
-                                />
-                              ) : d._id === obj.userId && d.profile === "" ? (
-                                <Avatar {...stringAvatar(obj.userfirstName)} />
-                              ) : (
-                                ""
-                              )
-                            )}
-                            title={
-                              <Typography
-                                variant="h5"
-                                color="white"
-                                sx={{ fontWeight: "bold", float: "left" }}
-                                component="h4"
-                              >
-                                {obj.userfirstName}
-                              </Typography>
-                            }
-                          ></CardHeader>
-
-                          <CardContent>
-                            <img
-                              style={{
-                                maxHeight: "100%",
-                                maxWidth: "60%",
-                                // objectFit: "contain",
-                              }}
-                              src={require(`../../../../Node/images/${obj.image}`)}
-                              alt="Trulli"
-                            />
-                            {/* <Typography gutterBottom variant="" component="div"> */}
-                            <h2>{obj.title}</h2>
-                            {/* </Typography> */}
-                          </CardContent>
-                          <CardActions style={{ backgroundColor: "#fff3e0" }}>
-                            <IconButton
-                              aria-label="add to favorites"
-                              onClick={() => likes(obj)}
-                            >
-                              <FavoriteIcon
-                                color={
-                                  obj.likes.includes(user._id)
-                                    ? "secondary"
-                                    : ""
-                                }
-                              />
-                              <h6>{obj.likes.length}</h6>
-                            </IconButton>
-                            <ExpandMore
-                              expand={expanded && index === id}
-                              onClick={() => handleExpandClick(index)}
-                              aria-expanded={expanded}
-                              aria-label="show more"
-                            >
-                              <IconButton aria-label="add to favorites">
-                                <CommentIcon />
-                              </IconButton>
-                            </ExpandMore>
-                            <IconButton
-                              aria-label="add to favorites"
-                              style={{ marginLeft: -20 }}
-                            >
-                              <h6>{obj.comments.length}</h6>
-                            </IconButton>
-                          </CardActions>
-                          <Collapse
-                            in={expanded && index === id}
-                            timeout="auto"
-                            unmountOnExit
+                            key={index}
                           >
+                            <CardHeader
+                              style={{
+                                backgroundColor: "#abe9cd",
+                                backgroundImage:
+                                  "linear-gradient(315deg, #ee9617 0%, #fe5858 74%)",
+                              }}
+                              avatar={data2.map((d) =>
+                                d._id === obj.userId && d.profile !== "" ? (
+                                  <Avatar
+                                    src={require(`../../../../Node/images/Profile/${d.profile}`)}
+                                  />
+                                ) : d._id === obj.userId && d.profile === "" ? (
+                                  <Avatar
+                                    {...stringAvatar(obj.userfirstName)}
+                                  />
+                                ) : (
+                                  ""
+                                )
+                              )}
+                              title={
+                                <Typography
+                                  variant="h5"
+                                  color="white"
+                                  sx={{ fontWeight: "bold", float: "left" }}
+                                  component="h4"
+                                >
+                                  {obj.userfirstName}
+                                </Typography>
+                              }
+                            ></CardHeader>
+
                             <CardContent>
-                              <Typography paragraph>Comment:</Typography>
-                              <TextField
-                                required
-                                size="small"
-                                id="fname"
-                                type="text"
-                                error={false}
-                                placeholder="Comment"
-                                name="fname"
-                                value={comment}
-                                onChange={(e) => setComment(e.target.value)}
-                                autoComplete="fname"
-                                autoFocus
-                                sx={{ minWidth: "80%", textAlign: "center" }}
+                              <img
+                                style={{
+                                  maxHeight: "100%",
+                                  maxWidth: "60%",
+                                  // objectFit: "contain",
+                                }}
+                                src={require(`../../../../Node/images/${obj.image}`)}
+                                alt="Trulli"
                               />
+                              {/* <Typography gutterBottom variant="" component="div"> */}
+                              <h2>{obj.title}</h2>
+                              {/* </Typography> */}
+                            </CardContent>
+                            <CardActions style={{ backgroundColor: "#fff3e0" }}>
                               <IconButton
                                 aria-label="add to favorites"
-                                onClick={() => addComment(obj)}
+                                onClick={() => likes(obj)}
                               >
-                                <ArrowCircleRightIcon />
+                                <FavoriteIcon
+                                  color={
+                                    obj.likes.includes(user._id)
+                                      ? "secondary"
+                                      : ""
+                                  }
+                                />
+                                <h6>{obj.likes.length}</h6>
                               </IconButton>
-
-                              <Link
-                                onClick={() =>
-                                  viewComments
-                                    ? setViewComments(false)
-                                    : setViewComments(true)
-                                }
+                              <ExpandMore
+                                expand={expanded && index === id}
+                                onClick={() => handleExpandClick(index)}
+                                aria-expanded={expanded}
+                                aria-label="show more"
                               >
-                                <Button size="small">View Comment</Button>
-                              </Link>
-
-                              <Collapse
-                                in={viewComments && index === id}
-                                timeout="auto"
-                                unmountOnExit
+                                <IconButton aria-label="add to favorites">
+                                  <CommentIcon />
+                                </IconButton>
+                              </ExpandMore>
+                              <IconButton
+                                aria-label="add to favorites"
+                                style={{ marginLeft: -20 }}
                               >
-                                {obj.comments.map((c, i) => (
-                                  <List
-                                    sx={{
-                                      width: "100%",
-                                      maxWidth: 360,
-                                      bgcolor: "background.paper",
-                                    }}
-                                    key={c._id}
-                                  >
-                                    <ListItem alignItems="flex-start">
-                                      <ListItemAvatar>
-                                        {data2.map(
-                                          (d) =>
-                                            d._id === c._id && (
-                                              <Avatar
-                                                {...stringAvatar(d.firstName)}
-                                              />
-                                            )
-                                        )}
-                                      </ListItemAvatar>
-                                      <ListItemText
-                                        primary={data2.map(
-                                          (d) => d._id === c._id && d.firstName
-                                        )}
-                                        secondary={
-                                          <React.Fragment>
-                                            <Typography
-                                              sx={{ display: "inline" }}
-                                              component="span"
-                                              variant="body2"
-                                              color="text.primary"
-                                            >
-                                              {c.comment}
-                                            </Typography>
-                                          </React.Fragment>
-                                        }
-                                      />
-                                    </ListItem>
-                                    <Divider variant="inset" component="li" />
-                                  </List>
-                                ))}
-                              </Collapse>
-                            </CardContent>
-                          </Collapse>
-                        </Card>
-                      </center>
-                    </Grid>
-                  );
-                })}
-            </Grid>
-          </InfiniteScroll>
-        </Container>
+                                <h6>{obj.comments.length}</h6>
+                              </IconButton>
+                            </CardActions>
+                            <Collapse
+                              in={expanded && index === id}
+                              timeout="auto"
+                              unmountOnExit
+                            >
+                              <CardContent>
+                                <Typography paragraph>Comment:</Typography>
+                                <TextField
+                                  required
+                                  size="small"
+                                  id="fname"
+                                  type="text"
+                                  error={false}
+                                  placeholder="Comment"
+                                  name="fname"
+                                  value={comment}
+                                  onChange={(e) => setComment(e.target.value)}
+                                  autoComplete="fname"
+                                  autoFocus
+                                  sx={{ minWidth: "80%", textAlign: "center" }}
+                                />
+                                <IconButton
+                                  aria-label="add to favorites"
+                                  onClick={() => addComment(obj)}
+                                >
+                                  <ArrowCircleRightIcon />
+                                </IconButton>
+
+                                <Link
+                                  onClick={() =>
+                                    viewComments
+                                      ? setViewComments(false)
+                                      : setViewComments(true)
+                                  }
+                                >
+                                  <Button size="small">View Comment</Button>
+                                </Link>
+
+                                <Collapse
+                                  in={viewComments && index === id}
+                                  timeout="auto"
+                                  unmountOnExit
+                                >
+                                  {obj.comments.map((c, i) => (
+                                    <List
+                                      sx={{
+                                        width: "100%",
+                                        maxWidth: 360,
+                                        bgcolor: "background.paper",
+                                      }}
+                                      key={c._id}
+                                    >
+                                      <ListItem alignItems="flex-start">
+                                        <ListItemAvatar>
+                                          {data2.map(
+                                            (d) =>
+                                              d._id === c._id && (
+                                                <Avatar
+                                                  {...stringAvatar(d.firstName)}
+                                                />
+                                              )
+                                          )}
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                          primary={data2.map(
+                                            (d) =>
+                                              d._id === c._id && d.firstName
+                                          )}
+                                          secondary={
+                                            <React.Fragment>
+                                              <Typography
+                                                sx={{ display: "inline" }}
+                                                component="span"
+                                                variant="body2"
+                                                color="text.primary"
+                                              >
+                                                {c.comment}
+                                              </Typography>
+                                            </React.Fragment>
+                                          }
+                                        />
+                                      </ListItem>
+                                      <Divider variant="inset" component="li" />
+                                    </List>
+                                  ))}
+                                </Collapse>
+                              </CardContent>
+                            </Collapse>
+                          </Card>
+                        </center>
+                      </Grid>
+                    );
+                  })}
+              </Grid>
+            </InfiniteScroll>
+          </Container>
         </>
       )}
     </>

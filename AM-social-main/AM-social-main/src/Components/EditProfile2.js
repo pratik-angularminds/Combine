@@ -248,7 +248,7 @@ function EditProfile2() {
                       label="Email Address"
                       name="email"
                       autoComplete="email"
-                      sx={{ minWidth: "80%", textAlign: "center" }}
+                      sx={{ minWidth: "80%", textAlign: "center",color:"white" }}
                     />
                   </Grid>
                 </Grid>
